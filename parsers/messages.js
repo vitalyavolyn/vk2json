@@ -41,7 +41,7 @@ const parseMessages = async ($) => {
       : 0 // TODO
     const datePart = header.text().split(', ').at(-1)
     message.date = datePart.replace('(ред.)').trim() // TODO: parse date
-    message.isEdited = datePart.includes('(ред.)') // TODO: parse deleted
+    message.isEdited = datePart.includes('(ред.)')
 
     const content = header.next()
     message.body = $(content[0].children.filter((e) => e.type === 'text')).text()
@@ -49,6 +49,11 @@ const parseMessages = async ($) => {
     const attachmentsElements = content.find('.attachment').toArray()
     for (const el of attachmentsElements) {
       const type = $(el).find('.attachment__description').text() // TODO: parse type?
+      if (type === 'Сообщение удалено') {
+        message.isDeleted = true
+        continue
+      }
+
       const link = $(el).find('.attachment__link').text()
       message.attachments.push({ type, link })
     }
