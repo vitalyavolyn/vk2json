@@ -34,12 +34,14 @@ const parseMessages = async ($) => {
 
     message.id = el.data().id
 
-    const header = el.find('.message__header') // TODO: date
+    const header = el.find('.message__header')
     const link = header.find('a')
     message.fromId = link.length
       ? getIdFromLink(link.attr('href').match(/vk\.com\/(.*)/)[1])
       : 0 // TODO
-    message.date = header.text().split(', ').at(-1) // TODO: parse date
+    const datePart = header.text().split(', ').at(-1)
+    message.date = datePart.replace('(ред.)').trim() // TODO: parse date
+    message.isEdited = datePart.includes('(ред.)') // TODO: parse deleted
 
     const content = header.next()
     message.body = $(content[0].children.filter((e) => e.type === 'text')).text()
