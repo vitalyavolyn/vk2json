@@ -32,6 +32,7 @@ const parseMessages = async (html) => {
     const message = {
       id: 0,
       body: '',
+      date: '',
       attachments: [],
       fromId: 0
     }
@@ -43,6 +44,7 @@ const parseMessages = async (html) => {
     message.fromId = link.length
       ? getIdFromLink(link.attr('href').match(/vk\.com\/(.*)/)[1])
       : 0 // TODO
+    message.date = header.text().split(', ').at(-1) // TODO: parse date
 
     const content = header.next()
     message.body = $(content[0].children.filter((e) => e.type === 'text')).text()
