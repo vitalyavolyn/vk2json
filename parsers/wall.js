@@ -44,9 +44,8 @@ const parsePosts = async ($, dir) => {
         const files = await fs.readdir(path.join(dir, id))
         for (const file of files) {
           const $ = await parseHTML(dir, id, file)
-          const comments = await parsePosts($, dir)
           // TODO: check comments order
-          post.comments = comments
+          post.comments = await parsePosts($, dir)
         }
       } catch (e) {}
     } else {

@@ -10,6 +10,5 @@ export const sortPages = (a, b) => getNumber(a) - getNumber(b)
 export const parseHTML = async (...pathSections) => {
   const filePath = path.join(...pathSections)
   const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-  const $ = cheerio.load(html)
-  return $
+  return cheerio.load(html)
 }

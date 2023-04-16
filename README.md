@@ -10,7 +10,9 @@
 - [ ] audio
 - [ ] comments
 - [ ] likes
-- [ ] other
+- [ ] other:
+  - [x] bans
+  - ??? <!-- TODO: add other "other" files -->
 - [ ] photos
 - [x] sessions
 - [x] verification
@@ -19,7 +21,7 @@
 - [ ] bookmarks
 - [x] messages
 - [ ] payments
-- [ ] profile
+- [x] profile
 - [ ] video
 
 ## Использование
@@ -44,9 +46,8 @@ $ npx vk2json /path/to/dir
 
 `--select`
 
-Массив типов данных, которые будут конвертированы из html в json (по умолчанию все возможнжые)
-
-`ads`, `apps`, `audio`, `bookmarks`, `comments`, `likes`, `messages`, `other`, `payments`, `photos`, `profile`, `sessions`, `verification`, `video`, `wall`
+Массив типов данных, которые будут конвертированы из html в json (по умолчанию все возможные)
+Список возможных парсеров лежит в папке `parsers`
 
 Пример: `--select ads messages`
 
@@ -55,7 +56,7 @@ $ npx vk2json /path/to/dir
 Выгрузка сообщений с пользователем 152199439:
 
 ```sh
-$ vk2json /path/to/dir --select-peers 152199439 --select messages
+$ vk2json /path/to/dir --select messages --select-peers 152199439
 Processing directory "messages"
 Parsed 1 conversations
 Wrote 1 files to /path/to/dir/json
