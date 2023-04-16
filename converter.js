@@ -48,7 +48,6 @@ export default async (argv) => {
     }
   }
 
-  // TODO: counter behaves weirdly with lots of conversations
   console.log(`Wrote ${counter} files to ${outputDir}`)
   process.exit(0)
 }

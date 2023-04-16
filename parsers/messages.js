@@ -85,14 +85,17 @@ export default async function * (dir, argv) {
     if (selectPeers && !selectPeers.includes(peer)) continue
     const peerFiles = await fs.readdir(path.join(dir, peer.toString()))
     // console.log(peerFiles)
+    const messages = []
     for (const file of peerFiles.sort(sortPages)) {
       const $ = await parseHTML(dir, peer.toString(), file)
-      const messages = await parseMessages($)
-      parsedCount++
-      yield [peer, messages]
+      const messagesPart = await parseMessages($)
+      messages.push(...messagesPart)
     }
+    parsedCount++
+    yield [peer, messages]
   }
 
+  console.log()
   console.log(`Parsed ${parsedCount} conversations`)
   // return result
 }
