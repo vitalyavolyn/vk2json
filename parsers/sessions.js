@@ -1,12 +1,12 @@
-const fs = require('fs').promises
-const path = require('path')
-const iconv = require('iconv-lite')
-const cheerio = require('cheerio')
+import { promises as fs } from 'fs'
+import path from 'path'
+import iconv from 'iconv-lite'
+import cheerio from 'cheerio'
 
 const getNumber = (str) => Number(str.match(/\d+/)[0])
 const sortPages = (a, b) => getNumber(a) - getNumber(b)
 
-module.exports = async (dir) => {
+export default async (dir) => {
   const pages = await fs.readdir(dir)
 
   const result = []

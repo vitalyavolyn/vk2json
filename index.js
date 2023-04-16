@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-const yargs = require('yargs')
-const { hideBin } = require('yargs/helpers')
-const converter = require('./converter')
+import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
+import converter from './converter.js'
 
 // eslint-disable-next-line no-unused-expressions
 yargs(hideBin(process.argv))

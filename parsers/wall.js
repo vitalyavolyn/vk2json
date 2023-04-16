@@ -1,9 +1,9 @@
-const fs = require('fs').promises
-const path = require('path')
-const iconv = require('iconv-lite')
-const cheerio = require('cheerio')
+import { promises as fs } from 'fs'
+import path from 'path'
+import iconv from 'iconv-lite'
+import cheerio from 'cheerio'
 
-// Comments ans posts have same structure, this function does both
+// Comments and posts have same structure, this function does both
 const parsePosts = async (html, dir) => {
   const $ = cheerio.load(html)
   const items = $('.item').toArray()
@@ -62,7 +62,7 @@ const parsePosts = async (html, dir) => {
   return posts
 }
 
-module.exports = async (dir) => {
+export default async (dir) => {
   const contents = await fs.readdir(dir, { withFileTypes: true })
   const files = contents
     .filter((dirent) => dirent.isFile())

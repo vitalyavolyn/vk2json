@@ -1,7 +1,7 @@
-const fs = require('fs').promises
-const path = require('path')
-const iconv = require('iconv-lite')
-const cheerio = require('cheerio')
+import { promises as fs } from 'fs'
+import path from 'path'
+import iconv from 'iconv-lite'
+import cheerio from 'cheerio'
 
 const getRetargetingCount = async (dir) => {
   const filePath = path.join(dir, 'retargeting.html')
@@ -70,7 +70,7 @@ const getCabinets = async (dir) => {
   return cabinets
 }
 
-module.exports = async (dir) => {
+export default async (dir) => {
   // TODO: check on account without ad cabinets
   const result = {
     retargetingCount: await getRetargetingCount(dir),

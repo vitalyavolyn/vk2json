@@ -44,7 +44,7 @@ $ npx vk2json /path/to/dir
 
 `--select`
 
-Массив типов данных, которые будут конвертированы из html в json
+Массив типов данных, которые будут конвертированы из html в json (по умолчанию все возможнжые)
 
 `ads`, `apps`, `audio`, `bookmarks`, `comments`, `likes`, `messages`, `other`, `payments`, `photos`, `profile`, `sessions`, `verification`, `video`, `wall`
 

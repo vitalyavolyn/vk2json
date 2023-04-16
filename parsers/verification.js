@@ -1,10 +1,10 @@
-const fs = require('fs').promises
-const path = require('path')
-const iconv = require('iconv-lite')
-const cheerio = require('cheerio')
+import { promises as fs } from 'fs'
+import path from 'path'
+import iconv from 'iconv-lite'
+import cheerio from 'cheerio'
 
 // TODO: test this on account with no verification requests
-module.exports = async (dir) => {
+export default async (dir) => {
   const filePath = path.join(dir, 'verification.html')
   const html = iconv.decode(await fs.readFile(filePath), 'win1251')
   const $ = cheerio.load(html)

@@ -1,11 +1,11 @@
-const ads = require('./ads')
-const apps = require('./apps')
-const messages = require('./messages')
-const sessions = require('./sessions')
-const verification = require('./verification')
-const wall = require('./wall')
+import ads from './ads.js'
+import apps from './apps.js'
+import messages from './messages.js'
+import sessions from './sessions.js'
+import verification from './verification.js'
+import wall from './wall.js'
 
-module.exports = {
+export default {
   ads,
   apps,
   messages,

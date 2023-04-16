@@ -1,9 +1,9 @@
-const fs = require('fs').promises
-const path = require('path')
-const iconv = require('iconv-lite')
-const cheerio = require('cheerio')
+import { promises as fs } from 'fs'
+import path from 'path'
+import iconv from 'iconv-lite'
+import cheerio from 'cheerio'
 
-module.exports = async (dir) => {
+export default async (dir) => {
   const filePath = path.join(dir, 'installed-apps.html')
   const html = iconv.decode(await fs.readFile(filePath), 'win1251')
   const $ = cheerio.load(html)

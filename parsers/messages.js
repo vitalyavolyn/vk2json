@@ -1,7 +1,8 @@
-const fs = require('fs').promises
-const path = require('path')
-const iconv = require('iconv-lite')
-const cheerio = require('cheerio')
+import { promises as fs } from 'fs'
+import path from 'path'
+import iconv from 'iconv-lite'
+import cheerio from 'cheerio'
+import cliProgress from 'cli-progress'
 
 const getNumber = (str) => Number(str.match(/\d+/)[0])
 const sortPages = (a, b) => getNumber(a) - getNumber(b)
@@ -13,7 +14,7 @@ const getIdFromLink = (str) => {
     return numberPart()
   }
 
-  if (str.startsWith('public') || str.startsWith('club')) {
+  if (str.startsWith('public') || str.startsWith('club') || str.startsWith('event')) {
     return -numberPart()
   }
 
@@ -59,7 +60,7 @@ const parseMessages = async (html) => {
   return messages
 }
 
-module.exports = async (dir, argv) => {
+export default async function * (dir, argv) {
   const filePath = path.join(dir, 'index-messages.html')
   const html = iconv.decode(await fs.readFile(filePath), 'win1251')
   const $ = cheerio.load(html)
@@ -68,23 +69,29 @@ module.exports = async (dir, argv) => {
     .map((e) => e.attribs.href.split('/')[0])
     .map(Number)
 
-  const result = {}
+  const bar = new cliProgress.SingleBar({
+    format: '[{bar}] {percentage}% | {value}/{total} | Current: {peer}'
+  }, cliProgress.Presets.legacy)
+  bar.start(peers.length, 0)
+
+  let parsedCount = 0
 
   const { selectPeers } = argv
   for (const peer of peers) {
+    bar.update(bar.value + 1, { peer })
     // console.log(peer)
     if (selectPeers && !selectPeers.includes(peer)) continue
-    result[peer] = []
     const peerFiles = await fs.readdir(path.join(dir, peer.toString()))
     // console.log(peerFiles)
     for (const file of peerFiles.sort(sortPages)) {
       const filePath = path.join(dir, peer.toString(), file)
       const html = iconv.decode(await fs.readFile(filePath), 'win1251')
       const messages = await parseMessages(html)
-      result[peer].push(...messages)
+      parsedCount++
+      yield [peer, messages]
     }
   }
 
-  console.log(`Parsed ${Object.keys(result).length} conversations`)
-  return result
+  console.log(`Parsed ${parsedCount} conversations`)
+  // return result
 }
