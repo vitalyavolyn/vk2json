@@ -1,11 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import iconv from 'iconv-lite'
-import cheerio from 'cheerio'
 import cliProgress from 'cli-progress'
-
-const getNumber = (str) => Number(str.match(/\d+/)[0])
-const sortPages = (a, b) => getNumber(a) - getNumber(b)
+import { getNumber, parseHTML, sortPages } from '../utils.js'
 
 const getIdFromLink = (str) => {
   const numberPart = () => getNumber(str)
@@ -22,8 +18,7 @@ const getIdFromLink = (str) => {
   return str
 }
 
-const parseMessages = async (html) => {
-  const $ = cheerio.load(html)
+const parseMessages = async ($) => {
   const messages = []
   const messageElements = $('.message').toArray()
 
@@ -63,9 +58,7 @@ const parseMessages = async (html) => {
 }
 
 export default async function * (dir, argv) {
-  const filePath = path.join(dir, 'index-messages.html')
-  const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-  const $ = cheerio.load(html)
+  const $ = await parseHTML(dir, 'index-messages.html')
   const peers = $('.message-peer--id a')
     .toArray()
     .map((e) => e.attribs.href.split('/')[0])
@@ -86,9 +79,8 @@ export default async function * (dir, argv) {
     const peerFiles = await fs.readdir(path.join(dir, peer.toString()))
     // console.log(peerFiles)
     for (const file of peerFiles.sort(sortPages)) {
-      const filePath = path.join(dir, peer.toString(), file)
-      const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-      const messages = await parseMessages(html)
+      const $ = await parseHTML(dir, peer.toString(), file)
+      const messages = await parseMessages($)
       parsedCount++
       yield [peer, messages]
     }

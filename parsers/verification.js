@@ -1,13 +1,8 @@
-import { promises as fs } from 'fs'
-import path from 'path'
-import iconv from 'iconv-lite'
-import cheerio from 'cheerio'
+import { parseHTML } from '../utils.js'
 
 // TODO: test this on account with no verification requests
 export default async (dir) => {
-  const filePath = path.join(dir, 'verification.html')
-  const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-  const $ = cheerio.load(html)
+  const $ = await parseHTML(dir, 'verification.html')
 
   const requests = $('.item a').toArray()
 
@@ -19,9 +14,7 @@ export default async (dir) => {
       info: []
     }
 
-    const filePath = path.join(dir, request.attribs.href)
-    const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-    const $ = cheerio.load(html)
+    const $ = await parseHTML(dir, request.attribs.href)
 
     const firstItem = $('.item')
     req.subject = firstItem.find('a').attr('href')

@@ -1,12 +1,8 @@
 import { promises as fs } from 'fs'
-import path from 'path'
-import iconv from 'iconv-lite'
-import cheerio from 'cheerio'
+import { parseHTML } from '../utils.js'
 
 const getRetargetingCount = async (dir) => {
-  const filePath = path.join(dir, 'retargeting.html')
-  const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-  const $ = cheerio.load(html)
+  const $ = await parseHTML(dir, 'retargeting.html')
   return Number($('.item__main').text().match(/\d+/)[0])
 }
 
@@ -17,9 +13,7 @@ const getInterests = async (dir) => {
   for (const file of files) {
     if (!file.startsWith('interests')) continue
 
-    const filePath = path.join(dir, file)
-    const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-    const $ = cheerio.load(html)
+    const $ = await parseHTML(dir, file)
 
     for (const item of $('.item').toArray()) {
       const el = $(item)
@@ -33,9 +27,7 @@ const getInterests = async (dir) => {
 }
 
 const getPlaces = async (dir) => {
-  const filePath = path.join(dir, 'geo-points.html')
-  const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-  const $ = cheerio.load(html)
+  const $ = await parseHTML(dir, 'geo-points.html')
 
   const places = []
 
@@ -53,9 +45,7 @@ const getPlaces = async (dir) => {
 }
 
 const getCabinets = async (dir) => {
-  const filePath = path.join(dir, 'offices.html')
-  const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-  const $ = cheerio.load(html)
+  const $ = await parseHTML(dir, 'offices.html')
 
   const cabinets = []
 

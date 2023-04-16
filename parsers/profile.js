@@ -1,15 +1,10 @@
-import { promises as fs } from 'fs'
-import path from 'path'
-import iconv from 'iconv-lite'
-import cheerio from 'cheerio'
+import { getNumber, parseHTML } from '../utils.js'
 
 const getString = (row) => row.find('div:not(.item__tertiary)').first().text()
-const getNumber = (str) => Number(str.match(/\d+/)[0])
 
 export default async (dir) => {
-  const filePath = path.join(dir, 'page-info.html')
-  const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-  const $ = cheerio.load(html)
+  const $ = await parseHTML(dir, 'page-info.html')
+
   const result = {}
 
   result.profilePic = $('img.fans_fan_img').first().attr('src')

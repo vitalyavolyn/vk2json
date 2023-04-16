@@ -1,12 +1,7 @@
-import { promises as fs } from 'fs'
-import path from 'path'
-import iconv from 'iconv-lite'
-import cheerio from 'cheerio'
+import { parseHTML } from '../utils.js'
 
 export default async (dir) => {
-  const filePath = path.join(dir, 'installed-apps.html')
-  const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-  const $ = cheerio.load(html)
+  const $ = await parseHTML(dir, 'installed-apps.html')
 
   const apps = []
 

@@ -1,11 +1,8 @@
 import { promises as fs } from 'fs'
-import path from 'path'
-import iconv from 'iconv-lite'
-import cheerio from 'cheerio'
+import { parseHTML } from '../utils.js'
 
-const parseBans = (html) => {
+const parseBans = ($) => {
   const result = []
-  const $ = cheerio.load(html)
   const items = $('.item').toArray()
   for (const item of items) {
     const ban = {
@@ -38,9 +35,8 @@ export default async (dir) => {
 
   for (const page of pages) {
     if (parsers[page]) {
-      const filePath = path.join(dir, page)
-      const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-      const output = parsers[page](html)
+      const $ = await parseHTML(dir, page)
+      const output = parsers[page]($)
       result[page.replace(/\.html$/, '')] = output
     } else {
       console.log(`Unknown "other" page: ${page}`)

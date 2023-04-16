@@ -1,10 +1,5 @@
 import { promises as fs } from 'fs'
-import path from 'path'
-import iconv from 'iconv-lite'
-import cheerio from 'cheerio'
-
-const getNumber = (str) => Number(str.match(/\d+/)[0])
-const sortPages = (a, b) => getNumber(a) - getNumber(b)
+import { parseHTML, sortPages } from '../utils.js'
 
 export default async (dir) => {
   const pages = await fs.readdir(dir)
@@ -12,9 +7,7 @@ export default async (dir) => {
   const result = []
 
   for (const page of pages.sort(sortPages)) {
-    const filePath = path.join(dir, page)
-    const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-    const $ = cheerio.load(html)
+    const $ = await parseHTML(dir, page)
     const items = $('.item').toArray()
     for (const item of items) {
       const session = {

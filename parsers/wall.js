@@ -1,11 +1,9 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import iconv from 'iconv-lite'
-import cheerio from 'cheerio'
+import { parseHTML } from '../utils.js'
 
 // Comments and posts have same structure, this function does both
-const parsePosts = async (html, dir) => {
-  const $ = cheerio.load(html)
+const parsePosts = async ($, dir) => {
   const items = $('.item').toArray()
 
   const posts = []
@@ -45,9 +43,8 @@ const parsePosts = async (html, dir) => {
       try {
         const files = await fs.readdir(path.join(dir, id))
         for (const file of files) {
-          const filePath = path.join(dir, id, file)
-          const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-          const comments = await parsePosts(html, dir)
+          const $ = await parseHTML(dir, id, file)
+          const comments = await parsePosts($, dir)
           // TODO: check comments order
           post.comments = comments
         }
@@ -71,9 +68,8 @@ export default async (dir) => {
   const posts = []
 
   for (const file of files) {
-    const filePath = path.join(dir, file)
-    const html = iconv.decode(await fs.readFile(filePath), 'win1251')
-    posts.push(...await parsePosts(html, dir))
+    const $ = await parseHTML(dir, file)
+    posts.push(...await parsePosts($, dir))
   }
 
   console.log(`Parsed ${posts.length} posts`)
