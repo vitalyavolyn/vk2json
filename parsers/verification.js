@@ -31,6 +31,6 @@ export default async (dir) => {
     result.push(req)
   }
 
-  console.log(`Parsed ${result.length} requests`)
+  console.log(`Parsed ${result.length} verification requests`)
   return result
 }

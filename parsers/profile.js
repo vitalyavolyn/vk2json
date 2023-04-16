@@ -150,5 +150,6 @@ export default async (dir) => {
   next()
   result.facebookNickname = getString(row)
 
+  console.log('Parsed profile info')
   return result
 }

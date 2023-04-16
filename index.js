@@ -16,17 +16,12 @@ yargs(hideBin(process.argv))
         describe: 'Output directory (default: input_dir/json)',
         type: 'string'
       })
-      // .option('messages-single-file', {
-      //   describe: 'Save ALL conversations in a single file (not recommended)',
-      //   type: 'boolean',
-      //   default: false
-      // })
       .option('select-peers', {
         describe: 'Only parse messages from specified peer_ids',
         type: 'array'
       })
       .option('select', {
-        describe: 'Only parse data types (ads, apps, audio, bookmarks, comments, likes, messages, other, payments, photos, profile, sessions, verification, video, wall)',
+        describe: 'Select specific parsers to use',
         type: 'array'
       })
   }, converter)

@@ -10,8 +10,6 @@ export default async (argv) => {
     .filter((dirent) => dirent.isDirectory())
     .map((dirent) => dirent.name)
 
-  const result = {}
-
   const outputDir = path.resolve(argv.out || path.join(root, 'json'))
   await fs.mkdir(outputDir, { recursive: true })
   let counter = 0
@@ -29,7 +27,7 @@ export default async (argv) => {
     }
 
     // special case because user might have a shitton of dialogues
-    // saving them right after parsing
+    // saving conversations one-by-one right after parsing
     if (dir === 'messages') {
       await fs.mkdir(path.join(outputDir, 'messages'), { recursive: true })
       for await (const [peer, messages] of parsers.messages(path.join(root, dir), argv)) {
@@ -40,20 +38,17 @@ export default async (argv) => {
         counter++
       }
     } else {
-      result[dir] = await parsers[dir](path.join(root, dir), argv)
+      const result = await parsers[dir](path.join(root, dir), argv)
+      await fs.writeFile(
+        path.join(outputDir, `${dir}.json`),
+        JSON.stringify(result, null, 2)
+      )
+
+      counter++
     }
   }
 
-  for (const key in result) {
-    await fs.writeFile(
-      path.join(outputDir, `${key}.json`),
-      JSON.stringify(result[key], null, 2)
-    )
-
-    counter++
-  }
-
-  // TODO: counter behaves weirdly
+  // TODO: counter behaves weirdly with lots of conversations
   console.log(`Wrote ${counter} files to ${outputDir}`)
   process.exit(0)
 }
