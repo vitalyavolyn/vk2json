@@ -4,6 +4,7 @@ import messages from './messages.js'
 import sessions from './sessions.js'
 import verification from './verification.js'
 import wall from './wall.js'
+import other from './other.js'
 
 export default {
   ads,
@@ -11,5 +12,6 @@ export default {
   messages,
   sessions,
   verification,
-  wall
+  wall,
+  other
 }
