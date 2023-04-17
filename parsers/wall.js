@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import { parseHTML } from '../utils.js'
+import { getNumber, parseHTML } from '../utils.js'
 
 // Comments and posts have same structure, this function does both
 const parsePosts = async ($, dir) => {
@@ -15,9 +15,11 @@ const parsePosts = async ($, dir) => {
       id: 0,
       text: '',
       attachments: [],
-      comments: []
+      comments: [],
+      fromId: 0,
+      date: ''
     }
-    // TODO: add isDeleted, date, fromId
+    // TODO: add isDeleted
 
     const attachmentsElements = el.find('.attachment').toArray()
     for (const el of attachmentsElements) {
@@ -29,7 +31,7 @@ const parsePosts = async ($, dir) => {
     post.text = el
       .find('.item__main')
       .children()
-      .map((_, e) => e.children[0].type === 'text' ? e.children[0] : null) // 🤪
+      .first()
       .text()
       .trim()
 
@@ -37,6 +39,21 @@ const parsePosts = async ($, dir) => {
     const [, ownerId, id, replyId] = link.match(/wall(\d+)_(\d+)((?:\?reply=(\d+)))?/)
     post.ownerId = Number(ownerId)
     post.id = Number(id)
+
+    const footer = el.find('.item__tertiary span')
+    const authorLink = footer.find('a')
+    if (authorLink.length) {
+      post.fromId = getNumber(authorLink.attr('href'))
+    }
+
+    authorLink?.remove()
+    let rawDate = footer.text().replace(/^Вы /, '')
+    if (rawDate.endsWith('(Запись архивирована)')) {
+      rawDate = rawDate.split('(')[0]
+      post.isArchived = true
+    }
+
+    post.date = rawDate
 
     if (!replyId) {
       // This is a post, check comments
