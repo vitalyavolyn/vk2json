@@ -1,7 +1,7 @@
 import path from 'path'
 import { promises as fs } from 'fs'
 
-import parsers from './parsers/index.js'
+import * as parsers from './parsers/index.js'
 
 export default async (argv) => {
   const root = argv.dir

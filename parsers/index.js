@@ -1,19 +1,9 @@
-import ads from './ads.js'
-import apps from './apps.js'
-import messages from './messages.js'
-import sessions from './sessions.js'
-import verification from './verification.js'
-import wall from './wall.js'
-import other from './other.js'
-import profile from './profile.js'
-
-export default {
-  ads,
-  apps,
-  messages,
-  sessions,
-  verification,
-  wall,
-  other,
-  profile
-}
+export { default as ads } from './ads.js'
+export { default as apps } from './apps.js'
+export { default as messages } from './messages.js'
+export { default as sessions } from './sessions.js'
+export { default as verification } from './verification.js'
+export { default as wall } from './wall.js'
+export { default as other } from './other.js'
+export { default as profile } from './profile.js'
+export { default as audio } from './audio.js'

@@ -37,8 +37,8 @@ const getPlaces = async (dir) => {
 
     const [, latitude, longitude] = link.match(/q=([\d.]+),([\d.]+)/)
 
-    const updated = el.find('.item__tertiary').text() // TODO: only keep date
-    places.push({ latitude: Number(latitude), longitude: Number(longitude), updated })
+    const info = el.find('.item__tertiary').text()
+    places.push({ latitude: Number(latitude), longitude: Number(longitude), info })
   }
 
   return places
