@@ -6,7 +6,11 @@
 
 Перед использованием необходимо извлечь содержимое архива.
 
-- [x] ads
+- [x] ads:
+  - [x] geo-points
+  - [x] interests
+  - [x] offices
+  - [x] retargeting
 - [x] apps
 - [x] audio
 - [ ] bookmarks
@@ -19,7 +23,20 @@
   - [x] support
 - [ ] payments
 - [ ] photos
-- [x] profile
+- [ ] profile:
+  - [ ] blacklist
+  - [ ] documents
+  - [ ] email-changes
+  - [ ] friends-idols
+  - [ ] friends-requests
+  - [ ] friends
+  - [ ] gifts
+  - [ ] market-goods
+  - [ ] name-changes
+  - [x] page-info
+  - [ ] phone-changes
+  - [ ] stories
+  - [ ] subscriptions
 - [x] sessions
 - [x] verification
 - [ ] video
