@@ -47,7 +47,7 @@ const parsePosts = async ($, dir) => {
     }
 
     authorLink?.remove()
-    let rawDate = footer.text().replace(/^Вы /, '')
+    let rawDate = footer.text().replace(/^Вы /, '').trim()
     if (rawDate.endsWith('(Запись архивирована)')) {
       rawDate = rawDate.split('(')[0]
       post.isArchived = true
