@@ -7,22 +7,23 @@
 Перед использованием необходимо извлечь содержимое архива.
 
 - [x] ads
-- [ ] audio
+- [x] apps
+- [x] audio
+- [ ] bookmarks
 - [ ] comments
 - [ ] likes
+- [x] messages
 - [ ] other:
   - [x] bans
-  - ??? <!-- TODO: add other "other" files -->
+  - [ ] external-contacts
+  - [ ] support
+- [ ] payments
 - [ ] photos
+- [x] profile
 - [x] sessions
 - [x] verification
-- [x] wall
-- [x] apps
-- [ ] bookmarks
-- [x] messages
-- [ ] payments
-- [x] profile
 - [ ] video
+- [x] wall
 
 ## Использование
 
@@ -47,7 +48,7 @@ $ npx vk2json /path/to/dir
 `--select`
 
 Массив типов данных, которые будут конвертированы из html в json (по умолчанию все возможные)
-Список возможных парсеров лежит в папке `parsers`
+Список возможных парсеров лежит в папке `parsers` либо в чеклисте выше
 
 Пример: `--select ads messages`
 
