@@ -3,7 +3,7 @@ import iconv from 'iconv-lite'
 import { promises as fs } from 'fs'
 import cheerio from 'cheerio'
 
-export const getNumber = (str) => Number(str.match(/\d+/)[0])
+export const getNumber = (str) => Number(str.replace(/\D/g, ''))
 
 export const sortPages = (a, b) => getNumber(a) - getNumber(b)
 

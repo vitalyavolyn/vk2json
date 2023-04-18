@@ -10,7 +10,7 @@
 - [x] apps
 - [x] audio
 - [ ] bookmarks
-- [ ] comments
+- [x] comments
 - [ ] likes
 - [x] messages
 - [ ] other:
