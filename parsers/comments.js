@@ -1,8 +1,7 @@
 import { promises as fs } from 'fs'
-import path from 'path'
-import { getNumber, parseHTML, sortPages } from '../utils.js'
+import { parseHTML, sortPages } from '../utils.js'
 
-const parseComments = async ($, dir) => {
+const parseComments = async ($) => {
   const items = $('.item').toArray()
 
   const comments = []
@@ -15,7 +14,7 @@ const parseComments = async ($, dir) => {
       attachments: [],
       date: ''
     }
-    // TODO: add isDeleted
+    // TODO: do deleted comments get into archive?
 
     const attachmentsElements = el.find('.attachment').toArray()
     for (const el of attachmentsElements) {

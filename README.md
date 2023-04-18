@@ -16,7 +16,7 @@
 - [ ] other:
   - [x] bans
   - [ ] external-contacts
-  - [ ] support
+  - [x] support
 - [ ] payments
 - [ ] photos
 - [x] profile

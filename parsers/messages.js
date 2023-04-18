@@ -14,7 +14,7 @@ const getIdFromLink = (str) => {
     return -numberPart()
   }
 
-  console.log('Warning: unknown fromId pattern:', str)
+  console.log('Warning: unsupported fromId pattern:', str)
   return str
 }
 

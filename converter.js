@@ -22,7 +22,7 @@ export default async (argv) => {
 
     console.log(`Processing directory "${dir}"`)
     if (!parsers[dir]) {
-      console.log('Unknown directory type, skipping...')
+      console.log('Unsupported directory type, skipping...')
       continue
     }
 
